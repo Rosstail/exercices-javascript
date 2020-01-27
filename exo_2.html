@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>TD 2</title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<p>Veuillez entrer un nombre entre 0 et 100.</p>
+		<textarea id = "num0to100">0 - 100</textarea>
+		<button type="button" onclick="tryToFind()">Envoyer</button>
+		<button type="button" onclick="reLaunch()">Recommencer</button>
+		<p id="demo"></p>
+	</body>
+	<script>
+		console.log("B");
+
+		var nbTry = 0;
+		var nbGame = 1;
+		var tryArray = [];
+		var randArray = [];
+		var nRand = Math.round(100 * Math.random());
+		console.log(nRand);
+
+		function reLaunch() {
+			document.getElementById("demo").innerHTML = "Perdu !";
+			nbTry = -1;
+			editArray();
+			rollTheDice();
+		}
+
+		function rollTheDice() {
+			nRand = Math.round(100 * Math.random());
+			console.log(nRand);
+		}
+
+		function tryToFind() {
+
+			var n = document.getElementById("num0to100").value;
+
+			if (n != nRand) {
+				nbTry++;
+				if (n > nRand)
+					document.getElementById("demo").innerHTML = "C'est plus petit";
+				else if (n < nRand)
+					document.getElementById("demo").innerHTML = "C'est plus grand";
+				else 
+					document.getElementById("demo").innerHTML = "error";
+			}
+			else {
+				document.getElementById("demo").innerHTML = "Victoire !";
+				editArray();
+				rollTheDice();
+			}
+		}
+
+		function editArray() {
+			if (randArray.length >= 5)
+				randArray.shift();
+			if (tryArray.length >= 5)
+				tryArray.shift();
+
+			randArray.push(nRand);
+			tryArray.push(nbTry);
+			console.log("RESULT " + randArray);
+			console.log("TRIES " + tryArray);
+		}
+
+	</script>
+</html>

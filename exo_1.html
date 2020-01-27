@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>TD 1</title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+	</body>
+	<script>
+		console.log("B");
+
+		var exoB = 412;
+		switch (typeof exoB) {
+			case ('number') :
+				console.log("La variable est un nombre");
+				break;
+			case ('string') :
+				console.log("La variable est une chaîne de caractères");
+				break;
+			case ('boolean') :
+				console.log("La variable est un booléen");
+				break;
+			case ('object') :
+				console.log("La variable est un objet");
+				break;
+		}
+
+		console.log("C");
+
+		for (var i = 0; i <= 9; i++) {
+			console.log(i);
+		}
+
+		console.log("D");
+
+		var exoD = 543;
+
+		function isEven(exoD) {
+			if (exoD % 2 == 0) {
+				return "0";
+			}
+			else if (exoD % 2 == 1) {
+				return "1";
+			}
+			else
+				return "la variable n'est pas un entier.";
+		}
+
+		console.log( isEven(exoD) );
+
+		console.log("E");
+
+		var exoE_A = 54;
+		var exoE_B = 87;
+
+		function compareA_B(exoE_A, exoE_B) {
+			if (exoE_A - exoE_B > 0)
+				return 1;
+			else if (exoE_A - exoE_B < 0)
+				return -1;
+			else if (exoE_A === exoE_B)
+				return 0;
+			else
+				return "error";
+		}
+
+		console.log( compareA_B(exoE_A, exoE_B) );
+		
+	</script>
+</html>
