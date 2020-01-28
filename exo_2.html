@@ -16,8 +16,7 @@
 
 		var nbTry = 0;
 		var nbGame = 1;
-		var tryArray = [];
-		var randArray = [];
+		var Arrays = [];
 		var nRand = Math.round(100 * Math.random());
 		console.log(nRand);
 
@@ -54,15 +53,10 @@
 		}
 
 		function editArray() {
-			if (randArray.length >= 5)
-				randArray.shift();
-			if (tryArray.length >= 5)
-				tryArray.shift();
-
-			randArray.push(nRand);
-			tryArray.push(nbTry);
-			console.log("RESULT " + randArray);
-			console.log("TRIES " + tryArray);
+			if (Arrays.length >= 5)
+				Arrays.shift();
+			Arrays.push("Partie : " + nbGame + " | Nombre à retrouver : " + nRand + " | Essais : " + nbTry + ".");
+			console.log(Arrays);
 		}
 
 	</script>
