@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form onsubmit="return false">
+        <input name="response" placeholder="I'm a placeholder" value="">
+        <input type="submit" onclick="submitNbr(this.form)">
+    </form>
+    <button onclick="nextGame(true)">Recommencer</button>
+    <p class="result"></p>
+    <p class="lastnbr"></p>
+    <table class="scoring-tab">
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+    </table>
+    <script>
+        let turn = 1;
+        let nbr = Math.floor(Math.random() * Math.floor(101));
+        console.log(nbr);
+        let arrLog = [];
+
+        function submitNbr(form) {
+            document.getElementsByClassName('result')[0].innerHTML = "";
+            let value = form.response.value;
+            if (value == nbr) {
+                document.getElementsByClassName('result')[0].innerHTML = "It's righhhht, you won!";
+                nextGame(false);
+            }
+            else if (value > nbr) {
+                document.getElementsByClassName('result')[0].innerHTML = "Your number is too hight";
+            }
+            else {
+                document.getElementsByClassName('result')[0].innerHTML = "Your number is too low";
+            }
+            document.getElementsByClassName('lastnbr')[0].innerHTML = "Your last response: " + String(value) + " try " + turn;
+            turn++;
+        }
+
+        function nextGame(lost) {
+            if (lost) {
+                document.getElementsByClassName('result')[0].innerHTML = "You lost!";
+                arrLog.unshift([nbr, -1]);
+                if (arrLog.length > 5) {
+                    arrLog.pop();
+                }
+            }
+            else {
+                arrLog.unshift([nbr, turn]);
+                if (arrLog.length > 5) {
+                    arrLog.pop();
+                }
+            }
+
+            turn = 0;
+            nbr = Math.floor(Math.random() * Math.floor(101));
+            console.log(nbr);
+            console.log(arrLog);
+            displayScore(arrLog)
+        }
+
+        function displayScore(arrLog) {
+            let index = 0;
+            let tab = document.getElementsByClassName("scoring-tab")[0].children;
+            for (let score in arrLog) {
+                tab[index].innerHTML = score[0] + score[1];
+                index++;
+            }
+        }
+    </script>
+</body>
+</html>

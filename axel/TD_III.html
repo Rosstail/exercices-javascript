@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+<div class="chrono">
+    <p></p>
+</div>
+
+<form>
+    <input type="pseudo" placeholder="pseudo" value="">
+    <input type="submit" onsubmit="launchGame(this.form)">
+</form>
+<div class="game-choices">
+    <form>
+        <br>
+        <input type="button" value="Feuille" onclick="play(0)">
+        <input type="button" value="Pierre" onclick="play(1)">
+        <input type="button" value="Ciseaux" onclick="play(2)">
+    </form>
+
+    <div>
+        <p class="result">Default text</p>
+    </div>
+
+    <button class="game-choices" onclick="nextGame(true)">Recommencer</button>
+</div>
+<script>
+    let turn = 1;
+    let arrLog = [];
+    let indexPreviousplay = 3;
+    let name = "default"
+    // Possible win permutation for index player/computer
+    let tabMatch = [[0, 1], [1, 2], [2, 0]];
+
+    function launchGame(form) {
+        
+    }
+
+    function play(index) {
+        let iaIndex = iaTurn();
+
+        if (turn === 42) {
+            nextGame();
+            displayResult("42");
+        }
+        if (iaIndex === index) {
+            console.log("Draw");
+            displayResult("draw");
+            turn++;
+            return;
+        }
+        for (let i = 0; i < 2; i++) {
+            if (index === tabMatch[i][0] && iaIndex === tabMatch[i][1]) {
+                console.log("You won");
+                displayResult("win");
+                turn++;
+                return;
+            }
+        }
+        console.log("Ia won");
+        displayResult("lost");
+        nextGame(true);
+    }
+
+    function iaTurn() {
+        let isOk = false;
+        while (!isOk) {
+            var index = Math.floor(Math.random() * Math.floor(3));
+            if (index !== indexPreviousplay) {
+                isOk = true;
+                indexPreviousplay = index;
+            }
+        }
+        return index;
+    }
+
+    function nextGame() {
+        //function to prompt name?
+        let name = "Kiwi";
+        arrLog.unshift([name, turn]);
+        if (arrLog.length !== 1) {
+            arrLog.sort((a, b) => b[1] - a[1]);
+        }
+        if (arrLog.length > 5) {
+            arrLog.pop();
+        }
+        console.log(arrLog);
+        turn = 0;
+    }
+
+    function displayResult(state) {
+        let select = document.getElementsByClassName("result")[0];
+        switch (state) {
+            case "win":
+                select.innerHTML = "You win this one";
+                break;
+            case "lost":
+                select.innerHTML = "You lost this one";
+                break;
+            case "draw":
+                select.innerHTML = "It's a draw.";
+                break;
+            case "42":
+                select.innerHTML = "You survive until turn 42";
+                break;
+        }
+    }
+
+</script>
+</body>
+</html>

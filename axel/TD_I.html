@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+
+<script>
+    let exoB = 9.0;
+    //exoB = 9.9;
+    switch (typeof exoB) {
+        case 'number':
+            console.log('This is a number');
+            break;
+        case 'string':
+            console.log('This is a string');
+            break;
+        case 'boolean':
+            console.log('This is a boolean');
+            break;
+        default:
+            console.log('Idk what it is');
+    }
+
+    for (let nbr = 0; nbr < 10; nbr++) {
+        console.log(nbr);
+    }
+
+    let exoD;
+    exoD = 900;
+    console.log(isEven(exoD));
+    function isEven(exoD) {
+        if (exoD % 2 === 0) {
+            return 1;
+        }
+        else if (exoD % 2 == 1) {
+            return 0;
+        }
+        else {
+            return -1;
+        }
+    }
+
+    console.log(compareA_B("Je", 0));
+    function compareA_B (ExoE_A, ExoE_B) {
+        if (typeof ExoE_A != 'number' || typeof ExoE_B != 'number') {
+            return 'error'
+        }
+        if (ExoE_A < ExoE_B) {
+            return -1;
+        }
+        else if (ExoE_A > ExoE_B) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+
+</script>
+</html>
