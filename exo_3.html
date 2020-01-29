@@ -5,65 +5,77 @@
 		<meta charset="UTF-8">
 	</head>
 	<body>
-		<div id="starting">
-			<textarea id="playerNickName">player</textarea>
-			<button type="button" onclick="startGame()" id="launch">Lancer partie</button>
-		</div>
-		<div id="playerAction">
-			<p>Cliquez vite !</p>
-			<button type="button" onclick="playerChoice(this.id)" id="rock">Pierre</button>
-			<button type="button" onclick="playerChoice(this.id)" id="paper">Papier</button>
-			<button type="button" onclick="playerChoice(this.id)" id="cizails">Ciseaux</button>
-			<button type="button" onclick="reLaunch()">Recommencer</button>
-		</div>
-		<p id="demo"></p>
+		<form onsubmit="return false">
+			<div id="starting">
+				<textarea id="playerNickName">player</textarea>
+				<button type="button" onclick="startGame()" id="launch">Lancer partie</button>
+			</div>
+			<div id="playerAction">
+				<p>Cliquez vite !</p>
+				<button type="button" onclick="playerChoice(this.id)" id="Pierre">Pierre</button>
+				<button type="button" onclick="playerChoice(this.id)" id="Feuille">Feuille</button>
+				<button type="button" onclick="playerChoice(this.id)" id="Ciseaux">Ciseaux</button>
+			</div>
+			<div id="divRes">
+				<button type="button" onclick="reLaunch()">Recommencer</button>
+				<p id="userChoice"></p>
+				<p id="cpuResult"></p>
+				<p id="result"></p>
+			</div>
+			<div id="board">
+			</div>
+
+			<p>Shi-Fu-Mi par Anthony, Jimmy, Axel, du papier toilette, deux éponges et des raviolis</p>
+		</form>
 	</body>
 	<script>
-		var Arrays = [];
 		var playerNumChoice;
 		var cpuNumChoice;
 		var nbGame = 1;
 		var round = 0;
-		var timer = 3;
+		var timer = 3000;
 		var cpuTry = "X";
-		var nickName = "player"
+		var nickName = "player";
+		var isRoundEnd = false;
+		var tables = [];
+		var Arrays = {
+			name: nickName,
+			score: round
+		}
 
-		document.getElementById("playerAction").innerHTML = "";
+		document.getElementById("playerAction").style.visibility="hidden";
+		document.getElementById("divRes").style.visibility="hidden";
 
 		function startGame() {
 			if (nickName.length > 1)
 				nickName = document.getElementById("playerNickName").value;
-				document.getElementById("starting").innerHTML = "";
+				document.getElementById("starting").style.visibility="hidden";
 				document.getElementById("playerAction").style.visibility="visible";
+				timer_lose = window.setTimeout("lose()", timer);
 		}
 
 		function letsRock() {
 			if (playerNumChoice - cpuNumChoice == 0) {
 				console.log("DRAW");
+				document.getElementById("result").innerHTML = "Égalité !";
 				round++;
 			}
-			else if (playerNumChoice == -1 && cpuNumChoice == 1) {
-				console.log("VICTORY");
-				round++;
-			}
-			else if (playerNumChoice == 1 && cpuNumChoice == 0) {
-				console.log("VICTORY");
-				round++;
-			}
-			else if (playerNumChoice == 0 && cpuNumChoice == -1) {
-				console.log("VICTORY");
+			else if ( (playerNumChoice == -1 && cpuNumChoice == 1 ) || (playerNumChoice == 1 && cpuNumChoice == 0) || (playerNumChoice == 0 && cpuNumChoice == -1) ) {
+			 	console.log("VICTORY");
+			 	document.getElementById("result").innerHTML = "Gagné !";
 				round++;
 			}
 			else {
 				console.log("FAILURE");
-				reLaunch();
+				lose();
 			}
+			document.getElementById("divRes").style.visibility="visible";
 		}
 
 		function cpuChoice() {
 			if (round != 42) {
 				while (cpuTry == cpuNumChoice || cpuTry === "X")
-					cpuTry = Math.floor(Math.random() * Math.floor(3)) - 1; //CHANGER FORMULE
+					cpuTry = Math.floor(Math.random() * Math.floor(3)) - 1;
 				console.log(cpuTry);
 				cpuNumChoice = cpuTry;
 			}
@@ -77,33 +89,75 @@
 					cpuNumChoice = -1;
 			}
 
+			if (cpuNumChoice == -1)
+				document.getElementById("cpuResult").innerHTML = "ORDI : Pierre !";
+			else if (cpuNumChoice == 0)
+				document.getElementById("cpuResult").innerHTML = "ORDI : Feuille !";
+			else
+				document.getElementById("cpuResult").innerHTML = "ORDI : Ciseaux !";
 			letsRock();
 		}
 
 		function playerChoice(clickedId) {
-			if (clickedId == "rock")
+			window.clearTimeout(timer_lose);
+			if (clickedId == "Pierre")
 				playerNumChoice = -1;
-			else if (clickedId == "paper")
+			else if (clickedId == "Feuille")
 				playerNumChoice = 0;
-			else if (clickedId == "cizails")
+			else if (clickedId == "Ciseaux")
 				playerNumChoice = 1;
 
-			document.getElementById("demo").innerHTML = clickedId + " " + playerNumChoice;
+			document.getElementById("userChoice").innerHTML = nickName + " : " + clickedId + " !";
 			cpuChoice();
 		}
 
-		function reLaunch() {
-			document.getElementById("demo").innerHTML = "Perdu !";
+		function lose() {
+			document.getElementById("playerAction").style.visibility="hidden";
+			document.getElementById("result").innerHTML = "Perdu !";
 			editArray();
+			isRoundEnd = true;
+		}
+
+		function reLaunch() {
+			window.clearTimeout(timer_lose);
+			if (isRoundEnd == false) {
+				lose();
+			}
 			round = 0;
 			nbGame++;
+			isRoundEnd = false;
+			document.getElementById("playerAction").style.visibility="visible";
+			timer_lose = window.setTimeout("lose()", timer);
+		}
+
+		function displayTable() {
+			var toAdd = document.createDocumentFragment();
+			for(var j=0; j < tables.length - 1; j++){
+			   var newDiv = document.createElement('div');
+			   newDiv.id = 'row'+ j;
+			   newDiv.className = 'ansbox';
+			   toAdd.appendChild(newDiv);
+			}
+
+			document.appendChild(toAdd);
+
+		}
+
+		function sortTable() {
+		  tables.sort((a, b) => b.score - a.score);
 		}
 
 		function editArray() {
-			if (Arrays.length >= 5)
-				Arrays.shift();
-			Arrays.push("Partie : " + nbGame + " | Pseudonyme : " + nickName + " | Manches survécues : " + round + ".");
-			console.log(Arrays);
+			if (tables.length >= 5)
+				tables.pop();
+			Arrays = {
+				name: nickName,
+				score: round
+			}
+			tables.push(Arrays);
+			sortTable();
+			console.log(tables);
+			displayTable();
 		}
 
 	</script>
