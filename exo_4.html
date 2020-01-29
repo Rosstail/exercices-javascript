@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<title>TD 4</title>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<form onsubmit="return false">
+			<div id="starting">
+				<textarea id="playerNickName">player</textarea>
+				<button type="button" onclick="startGame()" id="launch">Lancer partie</button>
+			</div>
+			<div id="playerAction">
+				<p>Choisissez !</p>
+				<button type="button" onclick="playerChoice(this.id)" id="Rouge">Rouge</button>
+				<button type="button" onclick="playerChoice(this.id)" id="Jaune">Jaune</button>
+				<button type="button" onclick="playerChoice(this.id)" id="Vert">Vert</button>
+				<button type="button" onclick="playerChoice(this.id)" id="Bleu">Bleu</button>
+				<button type="button" onclick="playerChoice(this.id)" id="Blanc">Blanc</button>
+				<button type="button" onclick="playerChoice(this.id)" id="Noir">Noir</button>
+			</div>
+			<div id="divRes">
+				<button type="button" onclick="reLaunch()">Recommencer</button>
+				<p id="userChoice"></p>
+				<p id="cpuResult"></p>
+				<p id="result"></p>
+			</div>
+			<div id="board">
+			</div>
+
+			<p>MasterMind par Anthony, Jimmy, Axel, du papier toilette, deux éponges et des raviolis</p>
+		</form>
+	</body>
+	<script>
+		var playerNumChoice = [];
+		var nickName = "player";
+		var isGameEnd = false;
+		var schem = [];
+		var cpuNumChoice;
+		var counter = 4;
+
+		document.getElementById("playerAction").style.visibility="hidden";
+		document.getElementById("divRes").style.visibility="hidden";
+
+		function startGame() {
+			if (nickName.length > 1)
+				nickName = document.getElementById("playerNickName").value;
+				document.getElementById("starting").style.visibility="hidden";
+				document.getElementById("playerAction").style.visibility="visible";
+				pattern();
+		}
+
+		function compare() {
+			for (var cmprLeft = 0; cmprLeft < 4; cmprLeft++) {
+				if (playerNumChoice[cmprLeft] - schem[cmprLeft] == 0) {
+				console.log("CHECK");
+				}
+				else {
+					console.log("UNCHECK");
+				}
+			}
+			document.getElementById("divRes").style.visibility="visible";
+		}
+
+		function pattern() {
+			for (var cpuChoice = 4; cpuChoice > 0; cpuChoice--) {
+				schem.push( Math.floor(Math.random() * Math.floor(6)) );
+			}
+			console.log(cpuChoice);
+			console.log(schem);
+		}
+
+		function playerChoice(clickedId) {
+			counter--;
+			if (clickedId == "Rouge")
+				playerNumChoice.push(0);
+			else if (clickedId == "Jaune")
+				playerNumChoice.push(1);
+			else if (clickedId == "Vert")
+				playerNumChoice.push(2);
+			else if (clickedId == "Bleu")
+				playerNumChoice.push(3);
+			else if (clickedId == "Blanc")
+				playerNumChoice.push(4);
+			else if (clickedId == "Noir")
+				playerNumChoice.push(5);
+			document.getElementById("userChoice").innerHTML = nickName + " : " + clickedId + " !";
+			console.log(nickName + " : " + clickedId + " !" + " D:" + playerNumChoice);
+			if (counter == 0)
+				compare();
+		}
+
+		function lose() {
+			document.getElementById("playerAction").style.visibility="hidden";
+			document.getElementById("result").innerHTML = "Perdu !";
+			editArray();
+			isGameEnd = true;
+		}
+
+		function reLaunch() {
+			if (isGameEnd == false) {
+				lose();
+			}
+			isGameEnd = false;
+			document.getElementById("playerAction").style.visibility="visible";
+		}
+
+	</script>
+</html>

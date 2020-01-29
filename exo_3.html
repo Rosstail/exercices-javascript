@@ -59,11 +59,13 @@
 				console.log("DRAW");
 				document.getElementById("result").innerHTML = "Égalité !";
 				round++;
+				timer_lose = window.setTimeout("lose()", timer);
 			}
 			else if ( (playerNumChoice == -1 && cpuNumChoice == 1 ) || (playerNumChoice == 1 && cpuNumChoice == 0) || (playerNumChoice == 0 && cpuNumChoice == -1) ) {
 			 	console.log("VICTORY");
 			 	document.getElementById("result").innerHTML = "Gagné !";
 				round++;
+				timer_lose = window.setTimeout("lose()", timer);
 			}
 			else {
 				console.log("FAILURE");
@@ -131,7 +133,7 @@
 		}
 
 		function displayTable() {
-			var toAdd = document.createDocumentFragment();
+			/*var toAdd = document.createDocumentFragment();
 			for(var j=0; j < tables.length - 1; j++){
 			   var newDiv = document.createElement('div');
 			   newDiv.id = 'row'+ j;
@@ -139,7 +141,8 @@
 			   toAdd.appendChild(newDiv);
 			}
 
-			document.appendChild(toAdd);
+			document.appendChild(toAdd);*/
+			console.log(tables);
 
 		}
 
@@ -157,7 +160,7 @@
 			tables.push(Arrays);
 			sortTable();
 			console.log(tables);
-			displayTable();
+			//displayTable();
 		}
 
 	</script>
